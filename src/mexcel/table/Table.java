@@ -154,13 +154,13 @@ public class Table {
 				default: throw new ParserException("Unknown token: " + operand2Str);
 	    	}
 	    	//finishing calculation
-    	    if (expressionTokenizer.hasPrevious()) {
-    		    String operator = expressionTokenizer.previous();
-    		    operand1 = eval(expressionTokenizer);
-    		    return doOperation(operand1, operator, operand2);
+	    	if (expressionTokenizer.hasPrevious()) {
+				String operator = expressionTokenizer.previous();
+				operand1 = eval(expressionTokenizer);
+				return doOperation(operand1, operator, operand2);
     	    }
-    	    else {
-    		    return operand2;//expression start
+	    	else {
+				return operand2;//expression start
     	    }
 	    }
 	    
