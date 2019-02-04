@@ -145,31 +145,23 @@ public class Table {
 	    	}
 	    	
 	    	String operand2Str = expressionTokenizer.previous();
+	    	int operand1, operand2;
 	    	
 	    	switch (tokenType(operand2Str)) {
-	    		case POSITIVE_NUMBER: int operand2 = Integer.parseInt(operand2Str); 
-	    			if (expressionTokenizer.hasPrevious()) {
-	    				String operator = expressionTokenizer.previous();
-	    				int operand1 = eval(expressionTokenizer);
-	    				return doOperation(operand1, operator, operand2);
-	    			}
-	    			else {
-	    				return operand2;//expression start
-	    			}
-	    			
-	    		case CELL: operand2 = resolveCell(operand2Str); 
-					if (expressionTokenizer.hasPrevious()) {
-						String operator = expressionTokenizer.previous();
-						int operand1 = eval(expressionTokenizer);
-						return doOperation(operand1, operator, operand2);
-					}
-					else {
-						return operand2;//expression start
-					}
-
+	    		case POSITIVE_NUMBER: operand2 = Integer.parseInt(operand2Str); break; 
+	    		case CELL: operand2 = resolveCell(operand2Str); break; 
 	    		case OPERATOR: throw new ParserException("Not enough operands");
 				default: throw new ParserException("Unknown token: " + operand2Str);
 	    	}
+	    	//finishing calculation
+			if (expressionTokenizer.hasPrevious()) {
+				String operator = expressionTokenizer.previous();
+				operand1 = eval(expressionTokenizer);
+				return doOperation(operand1, operator, operand2);
+			}
+			else {
+				return operand2;//expression start
+			}
 	    }
 	    
 	    private int resolveCell(String cellAddr) throws MicroExcelException {
